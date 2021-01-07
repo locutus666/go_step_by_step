@@ -1,0 +1,5 @@
+package: github.com/locutus666/go_learing/go_learning/code/ch15/remote_package
+import: []
+testImport:
+- package: github.com/easierway/concurrent_map
+  version: 0.9.1
