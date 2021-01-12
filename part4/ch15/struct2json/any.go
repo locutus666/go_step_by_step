@@ -8,18 +8,19 @@ import (
 )
 
 // 下面例子只支持整型、字符串、切片、结构体类型序列化为JSON格式。如果需要扩充类型，可以在writeAny函数中添加对应类型
+// writeAny函数传入一个字节缓冲和反射值对象，将反射值对象转换为JSON文本格式并写入字节缓冲中
 func writeAny(buff *bytes.Buffer, value reflect.Value) error {
 	switch value.Kind() {
 	case reflect.String:
-		buff.WriteString(strconv.Quote(value.String()))
+		buff.WriteString(strconv.Quote(value.String())) // 把带有双引号括起来的字符串，写入字节缓冲中
 	case reflect.Int:
-		buff.WriteString(strconv.FormatInt(value.Int(), 10))
+		buff.WriteString(strconv.FormatInt(value.Int(), 10)) // 把整型数据转换为字符串，并写入字节缓冲中
 	case reflect.Slice:
 		return writeSlice(buff, value)
 	case reflect.Struct:
 		return writeStruct(buff, value)
 	default:
-		return errors.New("unsupport kind :" + value.Kind().String())
+		return errors.New("unsupport kind :" + value.Kind().String()) // 遇到不认识的种类，就返回错误
 	}
 
 	return nil
